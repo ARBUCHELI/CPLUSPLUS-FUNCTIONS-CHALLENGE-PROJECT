@@ -1,0 +1,173 @@
+# PROJECT
+---------
+
+* Tic-Tac-Toe
+-------------
+Tic-Tac-Toe is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3x3 grid. The player who succeeds in placing three of their marks in a horizontal, 
+vertical or diagonal row wins the game.
+
+Setup Instructions: If you choose to do this project on your computer, you can download what you’ll need by clicking the Download button below. If you need help setting up your computer, 
+be sure to check out our setup guide.
+
+Open-ended: This project is slightly different than the others you have encountered thus far. Instead of a step-by-step tutorial, this project contains a series of open-ended checkpoints. 
+There are many possible ways to correctly fulfill all of these requirements, and you should expect to use the internet and other resources when you encounter a problem that you cannot 
+easily solve.
+
+* Prerequisites:
+----------------
+1.
+In order to complete this project, you should have completed the following sections of Learn C++:
+
+	. Loops
+
+	. Vectors
+
+	. Functions
+
+Make sure to plan out the program on paper before you start coding and remember to take breaks!
+
+You’ll need to account for the following:
+
+	. This game will have two players that will input in the same terminal.
+
+	. This 3x3 game board will need to be represented using a data structure, like a vector or an array.
+
+	. There are 8 winning combinations.
+
+* Project requirements:
+-----------------------
+2.
+Loops: This program should use a for loop or while loop to iterate through the player turns.
+
+
+Hint
+Bonus point: Make the program a “best of 3” or a “best of 5”.
+
+3.
+Vectors: This program should use a vector or an array to hold nine positions of the 3x3 grid.
+
+
+Hint
+In our solution, we created an array called board and we display the board with the following code:
+
+void draw() {
+ 
+    std::cout << "     |     |      \n";
+ 
+    std::cout << "  " << board[0] << "  |  " << board[1] << "  |  " << board[2] << "\n";
+ 
+    std::cout << "_____|_____|_____ \n";
+    std::cout << "     |     |      \n";
+ 
+    std::cout << "  " << board[3] << "  |  " << board[4] << "  |  " << board[5] << "\n";
+ 
+    std::cout << "_____|_____|_____ \n";
+    std::cout << "     |     |      \n";
+ 
+    std::cout << "  " << board[6] << "  |  " << board[7] << "  |  " << board[8] << "\n";
+    std::cout << "     |     |      \n";
+ 
+    std::cout << "\n";
+ 
+(Make sure the expand the hint so the code doesn’t overwrap.)
+
+4.
+Functions: This program should be modular.
+
+
+Hint
+In our solution, we have the following functions:
+
+bool is_winner();
+bool filled_up();
+void introduction();
+void take_turn();
+void set_position();
+void update_board();
+void change_player();
+void draw();
+void end_game();
+Solution:
+
+5.
+Great work! Visit our forums to compare your project to our sample solution code. You can also learn how to host your own solution on GitHub so you can share it with other learners! Your
+solution might look different from ours, and that’s okay! There are multiple ways to solve these projects, and you’ll learn more by seeing others’ code.
+
+ttt.cpp
+-------
+#include <iostream>
+#include <vector>
+
+ bool winner = false;
+  char symbol;
+  int x;
+  int y;
+
+   char board[3][3] = {
+    {'_', '_', '_'},
+    {'_', '_', '_'},
+    {'_', '_', '_'}
+  };
+
+void introduction() {
+  std::cout << "WELCOME TO TIC-TAC-TOE\n";
+  std::cout << "======================\n";
+  std::cout << "*Player A will use O**\n";
+  std::cout << "*Player B will use X**\n";
+}
+
+void print_board() {
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      std::cout << board[i][j] << " ";
+    }
+    std::cout << "\n";
+  }
+}
+
+bool winner_exist() {
+  if ((board[0][0] == 'O' &&  board[0][1] == 'O' && board[0][2] == 'O') || (board[1][0] == 'O' && board[1][1] == 'O' && board[1][2] == 'O') || (board[2][0] == 'O' && board[2][1] == 'O' && board[2][2] == 'O') || (board[0][0] == 'O' && board[1][0] == 'O' && board[2][0] == 'O') || (board[0][1] == 'O' && board[1][1] == 'O' && board[2][1] == 'O') || (board[0][2] == 'O' && board[1][2] == 'O' && board[2][2] == 'O') || (board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O') || (board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O')) {
+    winner = true;
+    std::cout << "Player A is the winner!!!\n";
+  }
+  else if ((board[0][0] == 'X' &&  board[0][1] == 'X' && board[0][2] == 'X') || (board[1][0] == 'X' && board[1][1] == 'X' && board[1][2] == 'X') || (board[2][0] == 'X' && board[2][1] == 'X' && board[2][2] == 'X') || (board[0][0] == 'X' && board[1][0] == 'X' && board[2][0] == 'X') || (board[0][1] == 'X' && board[1][1] == 'X' && board[2][1] == 'X') || (board[0][2] == 'X' && board[1][2] == 'X' && board[2][2] == 'X') || (board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') || (board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X')) {
+    winner = true;
+    std::cout << "Player B is the winner!!!\n";
+    return winner;
+  }
+} 
+
+void take_turn() {
+  int counter = 0;
+  while (winner == false) {
+    std::cout << "Please Enter the symbol and the coordinates: \n";
+    std::cout << "\n";
+    std::cout << "Enter the symbol: \n";
+    std::cin >> symbol;
+    std::cout << "Enter the file: \n";
+    std::cin >> x;
+      std::cout << "Enter the column: \n";
+      std::cin >> y;
+      board[x][y] = symbol;
+      print_board();
+      std::cout << "\n";
+      winner_exist();
+      counter++;
+      if (counter == 9 && winner_exist() == false) {
+        std::cout << "The game ended up in draw\n";
+        winner = true;
+      }
+  }
+}
+
+int main() {
+  introduction();
+  std::cout << "\n";
+  print_board();
+  std::cout << "\n";
+  take_turn();
+}
+
+
+
+
